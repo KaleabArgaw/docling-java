@@ -2,6 +2,7 @@ plugins {
   id("docling-shared")
   `java-library`
   `jacoco`
+  id("com.diffplug.spotless")
 }
 
 repositories {
@@ -39,6 +40,19 @@ testing {
 
 jacoco {
   toolVersion = libs.findVersion("jacoco").get().toString()
+}
+
+spotless {
+  lineEndings = com.diffplug.spotless.LineEnding.UNIX
+
+  java {
+    target("src/*/java/**/*.java")
+    target("src/*/java/module-info.java")
+    removeUnusedImports()
+    formatAnnotations()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
 }
 
 tasks.withType<Test>().configureEach {

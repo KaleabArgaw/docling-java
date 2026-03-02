@@ -43,15 +43,16 @@ jacoco {
 }
 
 spotless {
-  lineEndings = com.diffplug.spotless.LineEnding.UNIX
+  ratchetFrom("origin/main")
 
   java {
+    toggleOffOn()
     target("src/*/java/**/*.java")
-    target("src/*/java/module-info.java")
-    removeUnusedImports()
-    formatAnnotations()
-    trimTrailingWhitespace()
-    endWithNewline()
+
+    // Only going to enforce import order for now
+    importOrderFile("${rootProject.layout.projectDirectory}/.spotless/import-order.txt")
+
+    // Project maintainers need to decide what the formatting rules should be
   }
 }
 
